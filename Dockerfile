@@ -15,5 +15,7 @@ RUN deno cache deps.ts
 ADD . .
 RUN deno cache mod.ts
 
+RUN deno install --allow-read --allow-run --allow-write --allow-net -f --unstable https://deno.land/x/denon@v2.2.0/denon.ts
+
 # Finally run the bot
-CMD ["run" "--allow-net" "--allow-read" "--no-check" "--config" "tsconfig.json" "mod.ts"]
+CMD ["denon", "start"]
