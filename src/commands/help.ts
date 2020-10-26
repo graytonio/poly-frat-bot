@@ -10,6 +10,7 @@ botCache.commands.set(`help`, {
       name: "command",
       type: "string",
       lowercase: true,
+      required: false
     },
   ],
   execute: function (message, args: HelpArgs) {

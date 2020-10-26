@@ -7,7 +7,6 @@ botCache.commands.set(`stats`, {
   guildOnly: true,
   execute: (message, _args, guild) => {
     const botMember = guild?.members.get(botID);
-
     if (!botMember) return;
 
     let totalMemberCount = 0;
@@ -20,16 +19,12 @@ botCache.commands.set(`stats`, {
 
     const embed = new Embed()
       .setAuthor(
-        `${botMember?.nick || botMember?.user.username} Stats`,
+        `${botMember?.nick || botMember?.tag} Stats`,
         botMember.avatarURL,
       )
       .setColor("random")
       .addField("Guilds:", cache.guilds.size.toLocaleString(), true)
       .addField("Total Members:", totalMemberCount.toLocaleString(), true)
-      .addField("Cached Members:", cachedMemberCount.toLocaleString(), true)
-      .addField("Channels:", cache.channels.size.toLocaleString(), true)
-      .addField("Messages:", cache.messages.size.toLocaleString(), true)
-      .addField("Deno Version:", `v${Deno.version.deno}`, true)
       .setTimestamp();
 
     return sendMessage(message.channelID, { embed });

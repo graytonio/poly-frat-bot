@@ -53,8 +53,6 @@ botCache.commands.set("purge", {
 
       return sendEmbed(message.channelID, embed);
     } catch (error) {
-      console.error(error);
-
       return sendMessage(
         message.channelID,
         "Attempt to delete messages has failed!",

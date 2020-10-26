@@ -29,7 +29,7 @@ botCache.commands.set(`kick`, {
   ],
   execute: async (message, args: KickArgs) => {
     try {
-      await kick(message.guildID, args.member.user.id, args.reason);
+      await kick(message.guildID, args.member.id, args.reason);
 
       const embed = new Embed()
         .setColor("#FFA500")
@@ -41,6 +41,7 @@ botCache.commands.set(`kick`, {
 
       return sendEmbed(message.channelID, embed);
     } catch (error) {
+      console.log(error);
       return sendMessage(message.channelID, "Attempt to kick user has failed!");
     }
   },
