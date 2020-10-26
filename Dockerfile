@@ -4,8 +4,6 @@ FROM hayd/alpine-deno:1.4.6
 # Create and move into /bot directory
 WORKDIR /bot
 
-RUN deno install --allow-read --allow-run --allow-write --allow-net -f --unstable https://deno.land/x/denon@2.4.4/denon.ts
-
 # Use user deno so the bot isn't running as root
 USER deno
 
@@ -18,4 +16,4 @@ ADD . .
 RUN deno cache mod.ts
 
 # Finally run the bot
-CMD ["denon", "start"]
+CMD ["run" "--allow-net" "--allow-read" "--no-check" "--config" "tsconfig.json" "mod.ts"]
