@@ -6,8 +6,6 @@ botCache.monitors.set("fratmonitor", {
     name: "fratmonitor",
     botChannelPermissions: ["MANAGE_MESSAGES"],
     execute: async function (message) {
-        console.log(message);
-
         const isInFratChannel = (message.channelID === "770341120999030845");
         const isFratMessage = (message.content === "φρατ");
 
