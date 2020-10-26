@@ -17,4 +17,4 @@ ADD . .
 RUN deno cache mod.ts
 
 # Finally run the bot
-CMD ["run", "--allow-net", "--allow-read", "./mod.ts"]
+CMD ["run" "--allow-net" "--allow-read" "--no-check" "--config" "tsconfig.json" "mod.ts"]
