@@ -7,7 +7,7 @@ const env = config();
 
 export const configs = {
   // Your bot token goes here
-  token: env.TOKEN,
+  token: Deno.env.get("TOKEN") || env.TOKEN,
   // The default prefix for your bot. Don't worry guilds can change this later.
   prefix: "*",
   // This isn't required but you can add bot list api keys here.
