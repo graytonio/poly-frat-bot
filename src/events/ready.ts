@@ -8,9 +8,9 @@ import {
 
 botCache.eventHandlers.ready = function () {
   editBotsStatus(
-    StatusTypes.DoNotDisturb,
-    "Discordeno Best Lib",
-    ActivityType.Game,
+    StatusTypes.Online,
+    "With your heart",
+    ActivityType.Game
   );
 
   console.info(`Loaded ${botCache.arguments.size} Argument(s)`);

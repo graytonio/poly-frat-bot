@@ -2,11 +2,14 @@
 // Step 2: Add all your bot's information below. The only required one is token and prefix. NOTE: As long as `.gitignore` file is ignoring configs.ts your configurations will be kept private!
 // Step 3: Remove these comments if you like.
 
+import { config } from "https://deno.land/x/dotenv/mod.ts";
+const env = config();
+
 export const configs = {
   // Your bot token goes here
-  token: "NzcwMzQ3MTIxMDg1NTEzNzU4.X5cPqg.GzKMJSCWfuO1CgmdARdhub2-cas",
+  token: env.TOKEN,
   // The default prefix for your bot. Don't worry guilds can change this later.
-  prefix: "!",
+  prefix: "*",
   // This isn't required but you can add bot list api keys here.
   botListTokens: {
     DISCORD_BOTS_CO: "",

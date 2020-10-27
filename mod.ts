@@ -1,4 +1,4 @@
-import type { Message, Guild } from "./deps.ts";
+import { Message, Guild } from "./deps.ts";
 import type {
   Command,
   Argument,
