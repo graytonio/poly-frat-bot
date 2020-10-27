@@ -2,7 +2,7 @@
 // Step 2: Add all your bot's information below. The only required one is token and prefix. NOTE: As long as `.gitignore` file is ignoring configs.ts your configurations will be kept private!
 // Step 3: Remove these comments if you like.
 
-import { config } from "https://deno.land/x/dotenv/mod.ts";
+import { config } from "./deps.ts";
 const env = config();
 
 export const configs = {
