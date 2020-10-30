@@ -67,7 +67,6 @@ await Promise.all(
 
 // Loads languages
 await loadLanguages();
-await import("./src/database/database.ts");
 
 StartBot({
   token: configs.token,

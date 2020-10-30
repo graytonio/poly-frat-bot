@@ -9,7 +9,7 @@ export interface GuildSchema {
 	/** The custom prefix for this guild */
 	prefix: string;
 	/** The language for this guild */
-  language: string;
+  	language: string;
 }
 
 export interface UserSchema {

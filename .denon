@@ -7,8 +7,10 @@
     }
   },
   "allow": [
+    "write",
     "read",
     "net",
-    "env"
+    "env",
+    "plugin"
   ]
 }

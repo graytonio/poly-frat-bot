@@ -1,20 +1,32 @@
-import { Sabr, SabrTable } from "../../deps.ts";
-import {
-  ClientSchema,
-  GuildSchema,
-  UserSchema,
-} from "./schemas.ts";
+import { MongoClient, config } from '../../deps.ts';
+const env = config();
 
-// Create the database class
-const sabr = new Sabr();
+const client = new MongoClient();
+client.connectWithUri(Deno.env.get("MONGO_URI") || env.MONGO_URI);
 
-export const db = {
-  // This will allow us to access table methods easily as we will see below.
-  sabr,
-  client: new SabrTable<ClientSchema>(sabr, "client"),
-  guilds: new SabrTable<GuildSchema>(sabr, "guilds"),
-  users: new SabrTable<UserSchema>(sabr, "users"),
-};
+export interface GuildConfig {
+    _id?: { $oid: string };
+    guildId: string;
+    bannedWords: string[];
+    monitorAttachments: {
+        channelId: string;
+        monitorId: string;
+    }[];
+}
 
-// This is important as it prepares all the tables.
-await sabr.init();
+export const db = client.database("poly-frat");
+const configsCollection = db.collection<GuildConfig>("configs");
+
+export let addMonitor = async (guildId: string, monitorId: string, channelId: string) => {
+    let currentConfig = await getGuildConfig(guildId);
+    currentConfig?.monitorAttachments.push({ monitorId, channelId });
+    await configsCollection.updateOne({ guildId: guildId }, { $set: { monitorAttachments: currentConfig?.monitorAttachments }});
+}
+
+export let initGuild = async (config: GuildConfig) => {
+    await configsCollection.insertOne(config);
+}
+
+export let getGuildConfig = async (guildId: string) => {
+    return await configsCollection.findOne({ guildId: guildId });
+}

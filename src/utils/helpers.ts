@@ -10,6 +10,7 @@ import {
 } from "../../deps.ts";
 import { botCache } from "../../mod.ts";
 import { Milliseconds } from "./constants/time.ts";
+import { getGuildConfig, GuildConfig } from "../database/database.ts";
 
 /** This function should be used when you want to send a response that will @mention the user and delete it after a certain amount of seconds. By default, it will be deleted after 10 seconds. */
 export async function sendAlertResponse(
@@ -205,4 +206,9 @@ export function getTime() {
   return `${hour >= 10 ? hour : `0${hour}`}:${
     minute >= 10 ? minute : `0${minute}`
   } ${amOrPm}`;
+}
+
+export async function getMonitorConfig(guildId: string, monitorId: string) {
+  let config = await getGuildConfig(guildId);
+  return config?.monitorAttachments.filter(monitor => monitor.monitorId === monitorId)[0];
 }
