@@ -9,11 +9,11 @@ USER deno
 
 # Copy and cache all of the dependencies so they don't need to be downloaded every run
 COPY deps.ts .
-RUN deno cache deps.ts
+RUN deno --unstable cache deps.ts
 
 # Copy all the rest of the files and type check them so they don't need to be checked every run
 ADD . .
-RUN deno cache mod.ts
+RUN deno --unstable cache mod.ts
 
 # Finally run the bot
 CMD ["run" "--allow-net" "--allow-write" "--allow-read" "--allow-env" "--allow-plugin" "--no-check" "--unstable" "--config" "tsconfig.json" "mod.ts"]
