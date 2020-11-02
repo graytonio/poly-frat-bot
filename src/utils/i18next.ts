@@ -7,11 +7,12 @@ import { configs } from "../../configs.ts";
 /** This function helps translate the string to the specific guilds needs. */
 export function translate(guildID: string, key: string, options?: unknown) {
   const guild = cache.guilds.get(guildID);
-  const language = botCache.guildLanguages.get(guildID) ||
-    guild?.preferredLocale || "en_US";
+  const language =
+    botCache.guildLanguages.get(guildID) || guild?.preferredLocale || "en_US";
 
   // undefined is silly bug cause i18next dont have proper typings
-  const languageMap = i18next.getFixedT(language, undefined) ||
+  const languageMap =
+    i18next.getFixedT(language, undefined) ||
     i18next.getFixedT("en_US", undefined);
 
   return languageMap(key, options);
@@ -20,7 +21,7 @@ export function translate(guildID: string, key: string, options?: unknown) {
 export async function determineNamespaces(
   path: string,
   namespaces: string[] = [],
-  folderName = "",
+  folderName = ""
 ) {
   const files = Deno.readDirSync(Deno.realPathSync(path));
 
@@ -31,11 +32,11 @@ export async function determineNamespaces(
       namespaces = await determineNamespaces(
         `${path}/${file.name}`,
         namespaces,
-        isLanguage ? "" : `${file.name}/`,
+        isLanguage ? "" : `${file.name}/`
       );
     } else {
       namespaces.push(
-        `${folderName}${file.name.substr(0, file.name.length - 5)}`,
+        `${folderName}${file.name.substr(0, file.name.length - 5)}`
       );
     }
   }
@@ -45,15 +46,14 @@ export async function determineNamespaces(
 
 export async function loadLanguages() {
   const namespaces = await determineNamespaces(
-    Deno.realPathSync("./src/languages"),
+    Deno.realPathSync("./src/languages")
   );
   const languageFolder = [
     ...Deno.readDirSync(Deno.realPathSync("./src/languages")),
   ];
 
-  return i18next
-    .use(Backend)
-    .init({
+  return i18next.use(Backend).init(
+    {
       initImmediate: false,
       fallbackLng: "en_US",
       interpolation: { escapeValue: false },
@@ -65,27 +65,22 @@ export async function loadLanguages() {
         lng: string,
         ns: string,
         key: string,
-        fallbackValue: string,
+        fallbackValue: string
       ) {
-        const response =
-          `Missing translation key: ${lng}/${ns}/${key}. Instead using: ${fallbackValue}`;
+        const response = `Missing translation key: ${lng}/${ns}/${key}. Instead using: ${fallbackValue}`;
         console.warn(response);
 
         if (!configs.channelIDs.missingTranslation) return;
 
         const channel = cache.channels.get(
-          configs.channelIDs.missingTranslation,
+          configs.channelIDs.missingTranslation
         );
         if (!channel) return;
 
-        sendMessage(
-          channel.id,
-          response,
-        );
+        sendMessage(channel.id, response);
       },
-      preload: languageFolder.map(
-        (file) => file.isDirectory ? file.name : undefined,
-      )
+      preload: languageFolder
+        .map((file) => (file.isDirectory ? file.name : undefined))
         // Removes any non directory names(language names)
         .filter((name) => name),
       ns: namespaces,
@@ -93,5 +88,7 @@ export async function loadLanguages() {
         loadPath: `${Deno.realPathSync("./src/languages")}/{{lng}}/{{ns}}.json`,
       },
       // Silly bug in i18next needs a second param when unnecessary
-    }, undefined);
+    },
+    undefined
+  );
 }
