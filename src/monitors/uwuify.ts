@@ -16,7 +16,7 @@ botCache.monitors.set("uwuify", {
         const isSpokenInUWU = message.content === uwuMessage;
         if(isSpokenInUWU) return;
         
-        deleteMessage(message);
+        // deleteMessage(message);
         return sendAlertResponse(message, `The proper UWU is ${uwuMessage}`);
     }
 });

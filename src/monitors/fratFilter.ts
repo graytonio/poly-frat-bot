@@ -1,22 +1,21 @@
 import { botCache } from '../../mod.ts';
 import { deleteMessage } from '../../deps.ts';
-import { sendAlertResponse } from "../utils/helpers.ts";
+import { getMonitorConfig, sendAlertResponse } from "../utils/helpers.ts";
 
-botCache.monitors.set("fratmonitor", {
-    name: "fratmonitor",
+botCache.monitors.set("frat", {
+    name: "frat",
     botChannelPermissions: ["MANAGE_MESSAGES"],
     execute: async function (message) {
-        const isInFratChannel = (message.channelID === "770341120999030845");
-        const isFratMessage = (message.content === "φρατ");
+        let config = await getMonitorConfig(message.guildID, "frat");
+        if(!config) return;
 
+        const isInFratChannel = config.channelId === message.channelID;
         if(!isInFratChannel) return;
+
+        const isFratMessage = (message.content === "φρατ");
         if(isFratMessage) return;
 
-        try {
-            deleteMessage(message);
-            sendAlertResponse(message, "That wasn't very FRAT of you");
-        } catch (error) {
-            
-        }
+        deleteMessage(message);
+        sendAlertResponse(message, "That wasn't very FRAT of you");
     }
 })

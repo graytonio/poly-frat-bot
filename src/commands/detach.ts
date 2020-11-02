@@ -1,9 +1,9 @@
 import { botCache } from '../../mod.ts';
 import { ChannelTypes } from '../../deps.ts';
-import { addMonitor, getGuildConfig, initGuild } from "../database/database.ts";
+import { addMonitor, getGuildConfig, initGuild, removeMonitor } from "../database/database.ts";
 
-botCache.commands.set(`attach`, {
-    name: `attach`,
+botCache.commands.set(`detach`, {
+    name: `detach`,
     guildOnly: true,
     userServerPermissions: ["MANAGE_CHANNELS"],
     botServerPermissions: ["MANAGE_CHANNELS"],
@@ -17,16 +17,16 @@ botCache.commands.set(`attach`, {
             type: "textchannel"
         }
     ],
-    execute: async (message, args: AttachArgs) => {
+    execute: async (message, args: DetachArgs) => {
         let config = getGuildConfig(message.guildID);
 
         if(!config) await initGuild({ guildId: message.guildID, bannedWords: [], monitorAttachments: []});
 
-        addMonitor(message.guildID, args.monitor, args.channel.id);
+        removeMonitor(message.guildID, args.monitor, args.channel.id);
     }
 });
 
-interface AttachArgs {
+interface DetachArgs {
     monitor: string,
     channel: ChannelTypes.GUILD_TEXT
 }

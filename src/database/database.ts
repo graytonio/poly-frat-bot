@@ -23,6 +23,12 @@ export let addMonitor = async (guildId: string, monitorId: string, channelId: st
     await configsCollection.updateOne({ guildId: guildId }, { $set: { monitorAttachments: currentConfig?.monitorAttachments }});
 }
 
+export let removeMonitor = async (guildId: string, monitorId: string, channelId: string) => {
+    let currentConfig = await getGuildConfig(guildId);
+    let newConfig = currentConfig?.monitorAttachments.filter(monitor => monitor.channelId !== channelId && monitor.monitorId !== monitorId);
+    await configsCollection.updateOne({ guildId: guildId }, { $set: { monitorAttachments: newConfig }});
+}
+
 export let initGuild = async (config: GuildConfig) => {
     await configsCollection.insertOne(config);
 }
